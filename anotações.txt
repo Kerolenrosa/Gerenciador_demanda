@@ -2,21 +2,21 @@
 
 Colocar campo projetista na rota usuario
 
-criar rota login (POST)
+criar rota login (POST) OK
 	body - usuario e senha
 	bater info no banco
 	
 	se encontrou no banco 200 e retornar o json usuario e cargo sem a senha
 	senao 400 - mensagem: usuario ou senha invalido
 	
-criar rota criarProjeto(POST)
+criar rota criarProjeto(POST) OK 
 -	boDY: ID_PROJETO**, NOME_CLIENTE***, DATA_PEDIDO***, AMBIENTE***, DATA_ENTREGA***, PROJETISTA, OBSERVAÇÃO
  
-Criar rota buscarProjeto(GET)
+Criar rota buscarProjeto(GET) OK
 - 
 
-Criar rota para atualiza projeto(PUT)
+Criar rota para atualiza projeto(PUT) OK
 - 
 
-Criar rota para deletar projeto(DELETE)
+Criar rota para deletar projeto(DELETE) OK
 - 
