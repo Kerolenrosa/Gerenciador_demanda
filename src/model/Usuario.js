@@ -4,9 +4,13 @@ const mongoose = require('mongoose')
 const UsuarioSchema = new mongoose.Schema({
     usuario: {
         type: String,
-        required: true,
+        required: true
     },
     senha: {
+        type: String,
+        required: true
+    },
+    tipo: {
         type: String,
         required: true
     }

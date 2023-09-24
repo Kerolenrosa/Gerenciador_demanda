@@ -2,9 +2,9 @@
 const usuarioService = require('../service/usuario.service')
 
 const inserir = async (req, res) => {
-    const {usuario, senha} = req.body;
+    const {usuario, senha, tipo} = req.body;
 
-    if (!usuario || !senha){
+    if (!usuario || !senha || !tipo){
         res.status(400).send({mensagem: "Preencha todos os campos "});
     }
     
@@ -17,6 +17,7 @@ const inserir = async (req, res) => {
     res.status(201).send({
         usuario: {
             usuario,
+            tipo,
             id: usuarioCriado._id
         },
         mensagem: "Usuário criado com sucesso",
@@ -24,7 +25,6 @@ const inserir = async (req, res) => {
 }
 
 const buscarTodosUsuarios = async (req, res) => {
-    console.log('entrou')
     const usuarios = await usuarioService.buscarTodosUsuarios();
 
     if (usuarios.length === 0 ){
@@ -34,4 +34,37 @@ const buscarTodosUsuarios = async (req, res) => {
     return res.status(200).json(usuarios);
 }
 
-module.exports = { inserir, buscarTodosUsuarios};
+
+const logarUsuario = async (req, res) => {
+    const {usuario, senha, tipo} = req.body;
+
+    const encontrouUsuario = await usuarioService.buscarUsuario(req.body);
+
+    console.log(encontrouUsuario)
+    
+    if (!encontrouUsuario){
+        return res.status(400).send({mensagem: "Usuário não encontrado"});
+    }
+
+    if (encontrouUsuario.tipo == "V") {
+        cargo = "Vendedor";
+    }
+
+    if (encontrouUsuario.tipo == "A") {
+        cargo = "Admin";
+    }
+
+    if (encontrouUsuario.tipo == "P") {
+        cargo = "Projetista";
+    }
+
+    res.status(200).send({
+        usuario: {
+            usuario,
+            cargo
+        },
+        mensagem: "Usuário encontrado",
+    });
+}
+
+module.exports = { inserir, buscarTodosUsuarios, logarUsuario};
