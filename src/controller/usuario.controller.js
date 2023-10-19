@@ -36,11 +36,9 @@ const buscarTodosUsuarios = async (req, res) => {
 
 
 const logarUsuario = async (req, res) => {
-    const {usuario, senha, tipo} = req.body;
+    const {usuario, senha} = req.body;
 
     const encontrouUsuario = await usuarioService.buscarUsuario(req.body);
-
-    console.log(encontrouUsuario)
     
     if (!encontrouUsuario){
         return res.status(400).send({mensagem: "Usuário não encontrado"});
@@ -57,13 +55,14 @@ const logarUsuario = async (req, res) => {
     if (encontrouUsuario.tipo == "P") {
         cargo = "Projetista";
     }
-
+    const tipo = encontrouUsuario.tipo
     res.status(200).send({
         usuario: {
             usuario,
-            cargo
+            cargo,
+            tipo       
         },
-        mensagem: "Usuário encontrado",
+        mensagem: "Usuário encontrado"
     });
 }
 
