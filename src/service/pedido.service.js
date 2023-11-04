@@ -21,10 +21,16 @@ const atualizarPedido = (
 
 const deletarPedido = (cliente) => Pedido.deleteOne({ cliente: cliente })
 
+const buscarTodosPaginado = (query, skip, size) => Pedido.find(query).skip(skip).limit(size)
+
+const buscarTodosTotal = (query) => Pedido.countDocuments(query)
+
 module.exports = {
     criarPedido,
     buscarPedidobyCliente,
     buscarPedidobyStatus,
     atualizarPedido, 
-    deletarPedido
+    deletarPedido,
+    buscarTodosTotal,
+    buscarTodosPaginado
 };

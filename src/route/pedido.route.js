@@ -11,4 +11,6 @@ route.put('/:cliente', pedidoController.atualizarPedido)
 
 route.delete('/', pedidoController.deletarPedido)
 
+route.get('/todos', pedidoController.buscarTodos)
+
 module.exports = route;

@@ -39,7 +39,7 @@ const logarUsuario = async (req, res) => {
     const {usuario, senha} = req.body;
 
     const encontrouUsuario = await usuarioService.buscarUsuario(req.body);
-    
+        
     if (!encontrouUsuario){
         return res.status(400).send({mensagem: "Usuário não encontrado"});
     }

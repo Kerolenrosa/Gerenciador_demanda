@@ -96,4 +96,38 @@ const deletarPedido = async (req, res) => {
     res.send({mensagem: "Pedido excluído com sucesso"});
 }
 
-module.exports = { inserir, buscarPedidobyCliente, buscarPedidobyStatus, atualizarPedido, deletarPedido};
+const buscarTodos = async(req,res) => {
+    let { page , size = 10, projetista, data_pedido } = req.query;
+    page = parseInt(page);
+    size = parseInt(size);
+    const skip = (page - 1) * size;
+    const query = {};
+    if (projetista) query.projetista = projetista;
+    if (data_pedido) {
+        query.data_pedido = {
+            $gte: new Date(data_pedido),
+            $lt: new Date(new Date(data_pedido).setDate(new Date(data_pedido).getDate() + 1))
+        };
+    }
+
+    try {
+        const [results, totalCount] = await Promise.all([
+            pedidoService.buscarTodosPaginado(query,skip, size),
+            pedidoService.buscarTodosTotal(query)
+        ]);
+
+        if (totalCount === 0) return res.status(204).end()
+
+        res.json({
+            data: results,
+            currentPage: page,
+            pageSize: size,
+            totalPages: Math.ceil(totalCount / size),
+            totalItems: totalCount
+        });
+    } catch (err) {
+        res.status(502).json({ message: "Serviço Indisponível" });
+    };
+}
+
+module.exports = { inserir, buscarPedidobyCliente, buscarPedidobyStatus, atualizarPedido, deletarPedido, buscarTodos};
