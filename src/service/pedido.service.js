@@ -19,7 +19,7 @@ const atualizarPedido = (
     { cliente, data_pedido, ambiente, data_entrega, status, projetista, observacao }
 )
 
-const deletarPedido = (cliente) => Pedido.deleteOne({ cliente: cliente })
+const deletarPedido = (id) => Pedido.deleteOne({ _id: id })
 
 const buscarTodosPaginado = (query, skip, size) => Pedido.find(query).skip(skip).limit(size)
 

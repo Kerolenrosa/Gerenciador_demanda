@@ -9,7 +9,7 @@ route.get('/status', pedidoController.buscarPedidobyStatus)
 
 route.put('/:cliente', pedidoController.atualizarPedido)
 
-route.delete('/', pedidoController.deletarPedido)
+route.delete('/:id', pedidoController.deletarPedido)
 
 route.get('/todos', pedidoController.buscarTodos)
 

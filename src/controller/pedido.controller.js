@@ -1,8 +1,9 @@
 
+const { enviarEmail } = require('../service/email.service');
 const pedidoService = require('../service/pedido.service')
 
 const inserir = async (req, res) => {
-    const {cliente, data_pedido, ambiente, data_entrega, status, projetista, observacao } = req.body;
+    const {cliente, data_pedido, ambiente, data_entrega, status, projetista, observacao, cliente_email } = req.body;
 
     if (!cliente || !data_pedido || !ambiente || !data_entrega || !projetista ){
         res.status(400).send({mensagem: "Preencha todos os campos "});
@@ -13,6 +14,8 @@ const inserir = async (req, res) => {
     if (!pedidoCriado) {
         return res.status(400).send({mensagem: "Erro ao criar pedido"})
     }
+
+    enviarEmail(cliente_email, cliente, ambiente)
 
     res.status(201).send({
         pedido: {
@@ -79,19 +82,9 @@ const atualizarPedido = async (req, res) => {
 }
 
 const deletarPedido = async (req, res) => {
-    const {cliente} = req.body;
+    const {id} = req.params;
 
-    if (!cliente){
-        res.status(400).send({mensagem: "Preencha o nome do cliente"});
-    } 
-
-    const clienteEncontrado = await pedidoService.buscarPedidobyCliente(cliente);
-
-    if (!clienteEncontrado){
-        res.status(400).send({mensagem: "Nenhum pedido encontrado com esse cliente"});
-    }
-
-    const clienteDeletado = await pedidoService.deletarPedido(cliente);
+   await pedidoService.deletarPedido(id);
 
     res.send({mensagem: "Pedido excluído com sucesso"});
 }
@@ -103,12 +96,7 @@ const buscarTodos = async(req,res) => {
     const skip = (page - 1) * size;
     const query = {};
     if (projetista) query.projetista = projetista;
-    if (data_pedido) {
-        query.data_pedido = {
-            $gte: new Date(data_pedido),
-            $lt: new Date(new Date(data_pedido).setDate(new Date(data_pedido).getDate() + 1))
-        };
-    }
+    if (data_pedido) query.data_pedido = data_pedido
 
     try {
         const [results, totalCount] = await Promise.all([
