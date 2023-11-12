@@ -32,9 +32,9 @@ const inserir = async (req, res) => {
     });
 }
 
-const buscarPedidobyCliente = async (req, res) => {
-    const cliente = req.body.cliente
-    const encontrouPedido = await pedidoService.buscarPedidobyCliente(cliente);
+const buscarPedidobyId = async (req, res) => {
+    const id = req.params.id
+    const encontrouPedido = await pedidoService.buscarPedidobyId(id);
 
     if (!encontrouPedido){
         return res.status(400).send({mensagem: "Pedido não encontrado"});
@@ -61,14 +61,15 @@ const atualizarPedido = async (req, res) => {
         res.status(400).send({mensagem: "Preencha pelo menos um campo para atualizar"});
     } 
 
-    const cliente_parametro = req.params.cliente;
-    const cliente_atualizado = await pedidoService.buscarPedidobyCliente(cliente_parametro);
+    const cliente_id = req.params.id;
+    const cliente_atualizado = await pedidoService.buscarPedidobyId(cliente_id);
 
     if (!cliente_atualizado){
         res.status(400).send({mensagem: "Nenhum pedido encontrado com esse cliente"});
     }
 
     const atualizado = await pedidoService.atualizarPedido(
+        cliente_id,
         cliente, 
         data_pedido, 
         ambiente, 
@@ -118,4 +119,4 @@ const buscarTodos = async(req,res) => {
     };
 }
 
-module.exports = { inserir, buscarPedidobyCliente, buscarPedidobyStatus, atualizarPedido, deletarPedido, buscarTodos};
+module.exports = { inserir, buscarPedidobyId, buscarPedidobyStatus, atualizarPedido, deletarPedido, buscarTodos};

@@ -2,11 +2,12 @@ const Pedido = require("../model/Pedido");
 
 const criarPedido = (body) => Pedido.create(body);
 
-const buscarPedidobyCliente = (cliente) => Pedido.findOne({ cliente: cliente })
+const buscarPedidobyId = (id) => Pedido.findOne({ _id: id })
 
 const buscarPedidobyStatus = (status) => Pedido.findOne({ status: status })
 
 const atualizarPedido = (
+    id,
     cliente,
     data_pedido,
     ambiente,
@@ -15,7 +16,7 @@ const atualizarPedido = (
     projetista,
     observacao
 ) => Pedido.findOneAndUpdate(
-    { cliente: cliente },
+    { _id: id },
     { cliente, data_pedido, ambiente, data_entrega, status, projetista, observacao }
 )
 
@@ -27,7 +28,7 @@ const buscarTodosTotal = (query) => Pedido.countDocuments(query)
 
 module.exports = {
     criarPedido,
-    buscarPedidobyCliente,
+    buscarPedidobyId,
     buscarPedidobyStatus,
     atualizarPedido, 
     deletarPedido,

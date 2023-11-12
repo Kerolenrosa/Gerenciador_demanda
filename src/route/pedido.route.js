@@ -3,11 +3,11 @@ const pedidoController = require('../controller/pedido.controller');
 
 route.post('/', pedidoController.inserir)
 
-route.get('/', pedidoController.buscarPedidobyCliente)
+route.get('/:id', pedidoController.buscarPedidobyId)
 
 route.get('/status', pedidoController.buscarPedidobyStatus)
 
-route.put('/:cliente', pedidoController.atualizarPedido)
+route.put('/:id', pedidoController.atualizarPedido)
 
 route.delete('/:id', pedidoController.deletarPedido)
 

@@ -24,10 +24,14 @@ const PedidoSchema = new mongoose.Schema({
     },
     projetista: {
         type: String,
-        required: true
+        required: false
     },
     observacao: {
         type: String,
+        required: false
+    },
+    pdf:{
+        type: File,
         required: false
     }
 });
