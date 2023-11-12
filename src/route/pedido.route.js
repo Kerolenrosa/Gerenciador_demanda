@@ -1,7 +1,10 @@
 const route = require('express').Router();
 const pedidoController = require('../controller/pedido.controller');
+const multer = require('multer');
 
-route.post('/', pedidoController.inserir)
+const upload = multer({ dest: 'uploads/' });
+
+route.post('/',  upload.single('file'), pedidoController.inserir)
 
 route.get('/', pedidoController.buscarPedidobyCliente)
 

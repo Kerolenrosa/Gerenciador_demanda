@@ -3,6 +3,8 @@ const { enviarEmail } = require('../service/email.service');
 const pedidoService = require('../service/pedido.service')
 
 const inserir = async (req, res) => {
+    console.log(req.body)
+    console.log(req.file)
     const {cliente, data_pedido, ambiente, data_entrega, status, projetista, observacao, cliente_email } = req.body;
 
     if (!cliente || !data_pedido || !ambiente || !data_entrega || !projetista ){
