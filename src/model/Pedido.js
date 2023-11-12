@@ -30,8 +30,8 @@ const PedidoSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    fileToUpload:{
-        type: Buffer,
+    urlPdf:{
+        type: String,
         required: false
     }
 });
