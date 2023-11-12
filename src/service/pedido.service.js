@@ -22,7 +22,9 @@ const atualizarPedido = (
 
 const deletarPedido = (id) => Pedido.deleteOne({ _id: id })
 
-const buscarTodosPaginado = (query, skip, size) => Pedido.find(query).skip(skip).limit(size)
+const buscarTodosPaginado = (query, skip, size) =>{
+    return Pedido.find(query).skip(skip).limit(size)
+} 
 
 const buscarTodosTotal = (query) => Pedido.countDocuments(query)
 

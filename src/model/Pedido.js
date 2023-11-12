@@ -29,10 +29,6 @@ const PedidoSchema = new mongoose.Schema({
     observacao: {
         type: String,
         required: false
-    },
-    urlPdf:{
-        type: String,
-        required: false
     }
 });
 
