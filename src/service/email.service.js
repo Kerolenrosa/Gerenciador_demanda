@@ -5,7 +5,13 @@ const nodemailer = require('nodemailer');
 const templatePath = path.join(__dirname, '..', 'views', 'template.html');
 const htmlTemplate = fs.readFileSync(templatePath, 'utf8');
 
-async function enviarEmail(clienteEmail, clienteNome, ambiente) {
+const templatePathProjetista = path.join(__dirname, '..', 'views', 'templatep.html');
+const htmlTemplateP = fs.readFileSync(templatePathProjetista, 'utf8');
+
+async function enviarEmail(clienteEmail, clienteNome, ambiente, projetista) {
+
+    const email_projetista = projetista == 'Kerolen' ? 'kerol.rosa@hotmail.com' : 'leopadilha008@gmail.com'
+
     const transporter = nodemailer.createTransport({
         service: 'gmail', 
         host: 'smtp.gmail.com',
@@ -24,9 +30,16 @@ async function enviarEmail(clienteEmail, clienteNome, ambiente) {
         html:htmlTemplate.replace('{clienteNome}', clienteNome).replace('{ambiente}', ambiente)
     };
 
+    const mailOptionsP = {
+        from: 'leonardopad.silva@gmail.com',
+        to: email_projetista,
+        subject: 'Confirmação do Projeto',
+        html:htmlTemplateP.replace('{projetista}', projetista)
+    };
+
     try {
         await transporter.sendMail(mailOptions);
-        console.log('E-mail enviado com sucesso!');
+        await transporter.sendMail(mailOptionsP);
     } catch (error) {
         console.error('Erro ao enviar e-mail:', error);
         throw error
