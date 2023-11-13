@@ -5,12 +5,15 @@ const pedidoService = require('../service/pedido.service')
 const inserir = async (req, res) => {
  
     const {cliente, data_pedido, ambiente, data_entrega, status, projetista, observacao, cliente_email } = req.body;
+    const file = req.file
+
+    const payload = { ...req.body, fileToUpload: file.buffer}
 
     if (!cliente || !data_pedido || !ambiente || !data_entrega || !projetista ){
         res.status(400).send({mensagem: "Preencha todos os campos "});
     }
     
-    const pedidoCriado = await pedidoService.criarPedido (req.body);
+    const pedidoCriado = await pedidoService.criarPedido (payload);
 
     if (!pedidoCriado) {
         return res.status(400).send({mensagem: "Erro ao criar pedido"})
@@ -99,7 +102,6 @@ const buscarTodos = async(req,res) => {
     const query = {};
     if (projetista) query.projetista = projetista;
     if (data_pedido) query.data_pedido = data_pedido
-
     try {
         const [results, totalCount] = await Promise.all([
             pedidoService.buscarTodosPaginado(query,skip, size),
@@ -107,7 +109,6 @@ const buscarTodos = async(req,res) => {
         ]);
 
         if (totalCount === 0) return res.status(204).end()
-
         res.json({
             data: results,
             currentPage: page,
@@ -120,4 +121,22 @@ const buscarTodos = async(req,res) => {
     };
 }
 
-module.exports = { inserir, buscarPedidobyId, buscarPedidobyStatus, atualizarPedido, deletarPedido, buscarTodos};
+const buscarPdf = async(req,res) => {
+    try {
+        const pedido = await pedidoService.buscarPdfById(req.params.id)
+        if (!pedido) {
+            return null; 
+        }
+        const pdfBuffer = pedido.fileToUpload;
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=download.pdf');
+
+        res.send(pdfBuffer);
+    } catch (error) {
+        res.status(500)
+    }
+}
+
+
+
+module.exports = { inserir, buscarPedidobyId, buscarPedidobyStatus, atualizarPedido, deletarPedido, buscarTodos, buscarPdf};

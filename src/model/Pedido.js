@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 
-
 const PedidoSchema = new mongoose.Schema({
     cliente: {
         type: String,
@@ -28,6 +27,10 @@ const PedidoSchema = new mongoose.Schema({
     },
     observacao: {
         type: String,
+        required: false
+    },
+    fileToUpload:{
+        type:Buffer,
         required: false
     }
 });

@@ -22,9 +22,11 @@ const atualizarPedido = (
 
 const deletarPedido = (id) => Pedido.deleteOne({ _id: id })
 
-const buscarTodosPaginado = (query, skip, size) =>{
-    return Pedido.find(query).skip(skip).limit(size)
-} 
+const buscarTodosPaginado = async (query, skip, size) => {
+    return await Pedido.find(query).skip(skip).limit(size).select('-fileToUpload')
+}
+
+const buscarPdfById = async (id) => Pedido.findOne({ _id: id })
 
 const buscarTodosTotal = (query) => Pedido.countDocuments(query)
 
@@ -35,5 +37,7 @@ module.exports = {
     atualizarPedido, 
     deletarPedido,
     buscarTodosTotal,
-    buscarTodosPaginado
+    buscarTodosPaginado,
+    buscarPdfById
+
 };

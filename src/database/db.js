@@ -1,10 +1,9 @@
-const { error } = require('console');
 const mongoose = require('mongoose')
 
 const conectaBD = () => {
     console.log("Aguarde a conexão")
 
-    mongoose.connect("mongodb+srv://root:root@cluster0.uooooqv.mongodb.net/?retryWrites=true&w=majority",
+    mongoose.connect("mongodb+srv://leonardopadsilva:tcc123456@cluster0.nx8puxp.mongodb.net/?retryWrites=true&w=majority",
         { useNewUrlParser: true, useUnifiedTopology: true }
     )
     .then(() => console.log("Banco de dados conectado com sucesso"))
