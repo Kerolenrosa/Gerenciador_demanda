@@ -2,8 +2,6 @@
 const { enviarEmail } = require('../service/email.service');
 const pedidoService = require('../service/pedido.service')
 
-
-
 const inserir = async (req, res) => {
  
     const {cliente, data_pedido, ambiente, data_entrega, status, projetista, observacao, cliente_email } = req.body;
@@ -21,7 +19,7 @@ const inserir = async (req, res) => {
         return res.status(400).send({mensagem: "Erro ao criar pedido"})
     }
 
-    enviarEmail(cliente_email, cliente, ambiente, projetista)
+    enviarEmail(cliente_email, cliente, ambiente, projetista, file.buffer)
 
     res.status(201).send({
         pedido: {

@@ -11,6 +11,8 @@ const porta = 3000
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ limit: '100', extended: true }));
 
+app.use(express.static('public'));
+
 conectaBD()
 app.use(cors())
 // app.use(express.json())

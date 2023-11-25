@@ -8,7 +8,7 @@ const htmlTemplate = fs.readFileSync(templatePath, 'utf8');
 const templatePathProjetista = path.join(__dirname, '..', 'views', 'templatep.html');
 const htmlTemplateP = fs.readFileSync(templatePathProjetista, 'utf8');
 
-async function enviarEmail(clienteEmail, clienteNome, ambiente, projetista) {
+async function enviarEmail(clienteEmail, clienteNome, ambiente, projetista, orcamento) {
 
     const email_projetista = projetista == 'Kerolen' ? 'kerol.rosa@hotmail.com' : 'leopadilha008@gmail.com'
 
@@ -27,7 +27,13 @@ async function enviarEmail(clienteEmail, clienteNome, ambiente, projetista) {
         from: 'leonardopad.silva@gmail.com',
         to: clienteEmail,
         subject: 'Confirmação do Projeto',
-        html:htmlTemplate.replace('{clienteNome}', clienteNome).replace('{ambiente}', ambiente)
+        html:htmlTemplate.replace('{clienteNome}', clienteNome).replace('{ambiente}', ambiente),
+        attachments: [
+            {
+                filename: 'orçamento.pdf',
+                content: orcamento
+            }
+        ]
     };
 
     const mailOptionsP = {
