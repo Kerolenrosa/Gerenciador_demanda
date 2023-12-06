@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const conectaBD = () => {
     console.log("Aguarde a conexão")
 
-    mongoose.connect("mongodb+srv://leonardopadsilva:tcc123456@cluster0.nx8puxp.mongodb.net/?retryWrites=true&w=majority",
+    mongoose.connect(process.env.MONGODB_URI,
         { useNewUrlParser: true, useUnifiedTopology: true }
     )
     .then(() => console.log("Banco de dados conectado com sucesso"))

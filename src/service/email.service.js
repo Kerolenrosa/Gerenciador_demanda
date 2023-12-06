@@ -40,7 +40,13 @@ async function enviarEmail(clienteEmail, clienteNome, ambiente, projetista, orca
         from: 'leonardopad.silva@gmail.com',
         to: email_projetista,
         subject: 'Confirmação do Projeto',
-        html:htmlTemplateP.replace('{projetista}', projetista)
+        html:htmlTemplateP.replace('{projetista}', projetista),
+        attachments: [
+            {
+                filename: 'orçamento.pdf',
+                content: orcamento
+            }
+        ]
     };
 
     try {

@@ -9,7 +9,7 @@ const inserir = async (req, res) => {
 
     const payload = { ...req.body, fileToUpload: file.buffer}
 
-    if (!cliente || !data_pedido || !ambiente || !data_entrega || !projetista ){
+    if (!cliente || !data_pedido || !ambiente || !data_entrega){
         res.status(400).send({mensagem: "Preencha todos os campos "});
     }
     
@@ -102,11 +102,15 @@ const buscarTodos = async(req,res) => {
     const query = {};
     if (projetista) query.projetista = projetista;
     if (data_pedido) query.data_pedido = data_pedido
+
     try {
         const [results, totalCount] = await Promise.all([
             pedidoService.buscarTodosPaginado(query,skip, size),
             pedidoService.buscarTodosTotal(query)
         ]);
+
+        const statusOrder = { 'Em andamento': 1, 'Novo': 2, 'Finalizado': 3 };
+        results.sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
 
         if (totalCount === 0) return res.status(204).end()
         res.json({
